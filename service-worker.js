@@ -1,16 +1,42 @@
-const CACHE = 'noir-shell-v1';
-const ASSETS = ['./', './index.html', './manifest.webmanifest', './icons/noir-192.png', './icons/noir-512.png'];
+const CACHE = 'noir-shell-v2';
+
+const ASSETS = [
+  './',
+  './index.html',
+  './manifest.webmanifest',
+  './noir-192.png',
+  './noir-512.png'
+];
+
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
+  event.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(ASSETS))
+  );
   self.skipWaiting();
 });
+
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(key => key !== CACHE)
+          .map(key => caches.delete(key))
+      )
+    )
+  );
   self.clients.claim();
 });
+
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
+
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
-  event.respondWith(caches.match(event.request).then(hit => hit || fetch(event.request)));
+
+  event.respondWith(
+    caches.match(event.request).then(
+      response => response || fetch(event.request)
+    )
+  );
 });
