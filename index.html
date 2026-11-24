@@ -1,493 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090a10">
-
-<link rel="manifest" href="./manifest.webmanifest">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="./noir-192.png">
-<link rel="apple-touch-icon" href="./noir-192.png">
-
-<title>NOIR — Personal Cinema</title>
-
+<link rel="apple-touch-icon" href="noir-192.png"><title>NOIR — Personal Cinema</title>
 <style>
 :root{--bg:#090a10;--panel:#12141e;--panel2:#191c29;--line:#292d3c;--text:#f4f5fa;--muted:#9ba1b5;--accent:#b6ff5c;--accent2:#d7ff9b;--red:#ff647c}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
-button,input,select{font:inherit}
-button{cursor:pointer}
-.shell{max-width:1500px;margin:auto;padding:0 34px 70px}
-.top{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12;position:relative;z-index:5}
-.brand{font-weight:950;letter-spacing:4px;font-size:21px}
-.brand span{color:var(--accent)}
-.nav{display:flex;gap:26px;color:var(--muted);font-size:14px}
-.nav a{color:inherit;text-decoration:none}
-.nav a:hover{color:white}
-.topright{display:flex;align-items:center;gap:12px}
-.pill{border:1px solid var(--line);border-radius:30px;padding:9px 14px;color:var(--muted);font-size:12px}
-.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#d6ff8d,#5c8d2d);color:#111;display:grid;place-items:center;font-weight:800}
-
-.hero{margin:26px 0 38px;min-height:420px;border-radius:25px;overflow:hidden;position:relative;background:linear-gradient(90deg,#10121c 0%,#10121ce8 38%,#10121c30 100%),radial-gradient(ellipse at 78% 45%,#546f43 0%,#28313a 30%,#151927 65%);display:flex;align-items:center;padding:54px}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#090a10 0%,transparent 40%);pointer-events:none}
-.hero-art{position:absolute;right:5%;top:5%;height:90%;width:48%;opacity:.65;background:radial-gradient(ellipse at 55% 40%,#d2f79b55,transparent 35%),linear-gradient(135deg,transparent 30%,#b6ff5c22 50%,transparent 70%);filter:blur(1px);transform:skew(-10deg)}
-.hero-content{max-width:570px;position:relative;z-index:1}
-.eyebrow{color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-size:11px;font-weight:800}
-.hero h1{font-size:clamp(42px,6vw,76px);line-height:.98;margin:18px 0 15px;letter-spacing:-3px}
-.hero p{color:#c1c5d1;line-height:1.65;max-width:470px;font-size:14px}
-.actions{display:flex;gap:12px;margin-top:25px;flex-wrap:wrap}
-.btn{border:1px solid var(--accent);background:var(--accent);color:#10130b;border-radius:12px;padding:12px 19px;font-weight:800;transition:.2s;display:inline-flex;align-items:center;gap:9px}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px #b6ff5c2b}
-.btn:active{transform:scale(.96)}
-.btn.ghost{background:#10121c99;color:white;border-color:#ffffff42}
-.btn.small{padding:9px 13px;font-size:12px;border-radius:10px}
-.section{margin:32px 0}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.section h2{font-size:19px;margin:0;letter-spacing:-.4px}
-.sub{font-size:12px;color:var(--muted);margin-top:5px}
-.tools{display:flex;gap:10px;align-items:center}
-.search{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:10px 13px;color:white;width:min(250px,45vw);outline:none}
-.search:focus,input:focus{border-color:var(--accent)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:17px}
-.movie{min-width:0;cursor:pointer;outline:none}
-.poster{aspect-ratio:2/2.8;border-radius:14px;background:linear-gradient(145deg,#30384b,#171b28);border:1px solid #ffffff12;position:relative;overflow:hidden;display:flex;align-items:end;padding:13px;transition:.25s}
-.poster:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 25%,var(--glow,#b6ff5c55),transparent 35%),linear-gradient(0deg,#070910e8,transparent 70%)}
-.poster:hover{transform:translateY(-5px);border-color:#b6ff5c88}
-.poster-title{position:relative;font-weight:900;font-size:18px;line-height:1.05;text-shadow:0 2px 10px #000}
-.poster .tag{position:absolute;top:10px;left:10px;background:#090a10b8;border:1px solid #ffffff22;padding:5px 8px;border-radius:20px;font-size:9px;color:#e7e9ef}
-.movie-info{display:flex;justify-content:space-between;gap:5px;margin-top:9px}
-.movie-info strong{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.movie-info span{font-size:11px;color:var(--muted)}
-.empty{border:1px dashed #3a4051;border-radius:17px;padding:35px;text-align:center;color:var(--muted)}
-.empty b{display:block;color:white;margin:9px}
-.progress{height:3px;background:#ffffff20;margin-top:8px;border-radius:9px;overflow:hidden}
-.progress i{display:block;height:100%;background:var(--accent)}
-.upload-card{background:linear-gradient(120deg,#151a25,#10121a);border:1px solid var(--line);border-radius:18px;padding:23px;display:flex;justify-content:space-between;align-items:center;gap:18px}
-.upload-card h3{margin:0 0 6px}
-.upload-card p{margin:0;color:var(--muted);font-size:13px}
-.footer{color:#70778c;font-size:11px;text-align:center;margin-top:55px;line-height:1.7}
-
-.modal{position:fixed;inset:0;background:#000b;z-index:20;display:none;align-items:center;justify-content:center;padding:18px}
-.modal.show{display:flex}
-.dialog{width:min(720px,100%);max-height:92vh;overflow:auto;background:#121520;border:1px solid #33394b;border-radius:20px;padding:23px;box-shadow:0 25px 100px #000}
-.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.dialog h2{margin:0;font-size:20px}
-.close{border:1px solid var(--line);background:transparent;color:white;border-radius:9px;padding:7px 11px}
-.drop{border:1px dashed #596174;border-radius:15px;padding:25px;text-align:center;background:#0d1018}
-.drop.drag{border-color:var(--accent);background:#b6ff5c0b}
-.drop input{max-width:100%;margin-top:12px;color:var(--muted)}
-.field{display:grid;gap:7px;margin:13px 0}
-.field label{font-size:12px;color:var(--muted)}
-.field input,.field select{background:#0c0f17;color:white;border:1px solid var(--line);border-radius:10px;padding:11px;outline:none;width:100%}
-.rowfields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.note{font-size:11px;color:var(--muted);line-height:1.6}
-.watch{width:min(1100px,100%);padding:0;overflow:hidden}
-.watch video{width:100%;max-height:65vh;background:#000;display:block}
-.watchmeta{padding:18px 22px}
-.watchmeta h2{margin:0 0 6px}
-.watchmeta p{color:var(--muted);font-size:13px}
-.watchbar{display:flex;justify-content:space-between;gap:12px;align-items:center}
-.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#e8ffcb;color:#17200d;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:700;z-index:50;transition:.25s}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-.hidden{display:none!important}
-
-@media(max-width:700px){
-.shell{padding:0 16px 45px}
-.top{height:64px}
-.nav{display:none}
-.pill{display:none}
-.hero{min-height:390px;padding:28px 23px;margin:18px 0 30px}
-.hero-art{width:65%;right:-15%;opacity:.4}
-.hero h1{font-size:49px}
-.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.section-head{align-items:flex-start;gap:12px;flex-wrap:wrap}
-.tools{width:100%}
-.search{width:100%}
-.upload-card{align-items:flex-start;flex-direction:column}
-.rowfields{grid-template-columns:1fr}
-.poster{border-radius:12px}
-.topright .btn{padding:9px 11px;font-size:12px}
-}
-@media(min-width:1100px){
-.grid{grid-template-columns:repeat(6,minmax(0,1fr))}
-}
-</style>
-</head>
-
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}.shell{max-width:1500px;margin:auto;padding:0 34px 70px}.top{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12;position:relative;z-index:5}.brand{font-weight:950;letter-spacing:4px;font-size:21px}.brand span{color:var(--accent)}.nav{display:flex;gap:26px;color:var(--muted);font-size:14px}.nav a{color:inherit;text-decoration:none}.nav a:hover{color:white}.topright{display:flex;align-items:center;gap:12px}.pill{border:1px solid var(--line);border-radius:30px;padding:9px 14px;color:var(--muted);font-size:12px}.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#d6ff8d,#5c8d2d);color:#111;display:grid;place-items:center;font-weight:800}
+.hero{margin:26px 0 38px;min-height:420px;border-radius:25px;overflow:hidden;position:relative;background:linear-gradient(90deg,#10121c 0%,#10121ce8 38%,#10121c30 100%),radial-gradient(ellipse at 78% 45%,#546f43 0%,#28313a 30%,#151927 65%);display:flex;align-items:center;padding:54px}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#090a10 0%,transparent 40%);pointer-events:none}.hero-art{position:absolute;right:5%;top:5%;height:90%;width:48%;opacity:.65;background:radial-gradient(ellipse at 55% 40%,#d2f79b55,transparent 35%),linear-gradient(135deg,transparent 30%,#b6ff5c22 50%,transparent 70%);filter:blur(1px);transform:skew(-10deg)}.hero-content{max-width:570px;position:relative;z-index:1}.eyebrow{color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-size:11px;font-weight:800}.hero h1{font-size:clamp(42px,6vw,76px);line-height:.98;margin:18px 0 15px;letter-spacing:-3px}.hero p{color:#c1c5d1;line-height:1.65;max-width:470px;font-size:14px}.actions{display:flex;gap:12px;margin-top:25px;flex-wrap:wrap}.btn{border:1px solid var(--accent);background:var(--accent);color:#10130b;border-radius:12px;padding:12px 19px;font-weight:800;transition:.2s;display:inline-flex;align-items:center;gap:9px}.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px #b6ff5c2b}.btn:active{transform:scale(.96)}.btn.ghost{background:#10121c99;color:white;border-color:#ffffff42}.btn.small{padding:9px 13px;font-size:12px;border-radius:10px}.section{margin:32px 0}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.section h2{font-size:19px;margin:0;letter-spacing:-.4px}.sub{font-size:12px;color:var(--muted);margin-top:5px}.tools{display:flex;gap:10px;align-items:center}.search{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:10px 13px;color:white;width:min(250px,45vw);outline:none}.search:focus,input:focus{border-color:var(--accent)}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:17px}.movie{min-width:0;cursor:pointer;outline:none}.poster{aspect-ratio:2/2.8;border-radius:14px;background:linear-gradient(145deg,#30384b,#171b28);border:1px solid #ffffff12;position:relative;overflow:hidden;display:flex;align-items:end;padding:13px;transition:.25s}.poster:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 25%,var(--glow,#b6ff5c55),transparent 35%),linear-gradient(0deg,#070910e8,transparent 70%)}.poster:hover{transform:translateY(-5px);border-color:#b6ff5c88}.poster-title{position:relative;font-weight:900;font-size:18px;line-height:1.05;text-shadow:0 2px 10px #000}.poster .tag{position:absolute;top:10px;left:10px;background:#090a10b8;border:1px solid #ffffff22;padding:5px 8px;border-radius:20px;font-size:9px;color:#e7e9ef}.movie-info{display:flex;justify-content:space-between;gap:5px;margin-top:9px}.movie-info strong{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.movie-info span{font-size:11px;color:var(--muted)}.empty{border:1px dashed #3a4051;border-radius:17px;padding:35px;text-align:center;color:var(--muted)}.empty b{display:block;color:white;margin:9px}.progress{height:3px;background:#ffffff20;margin-top:8px;border-radius:9px;overflow:hidden}.progress i{display:block;height:100%;background:var(--accent)}.upload-card{background:linear-gradient(120deg,#151a25,#10121a);border:1px solid var(--line);border-radius:18px;padding:23px;display:flex;justify-content:space-between;align-items:center;gap:18px}.upload-card h3{margin:0 0 6px}.upload-card p{margin:0;color:var(--muted);font-size:13px}.footer{color:#70778c;font-size:11px;text-align:center;margin-top:55px;line-height:1.7}
+.modal{position:fixed;inset:0;background:#000b;z-index:20;display:none;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.dialog{width:min(720px,100%);max-height:92vh;overflow:auto;background:#121520;border:1px solid #33394b;border-radius:20px;padding:23px;box-shadow:0 25px 100px #000}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.dialog h2{margin:0;font-size:20px}.close{border:1px solid var(--line);background:transparent;color:white;border-radius:9px;padding:7px 11px}.drop{border:1px dashed #596174;border-radius:15px;padding:25px;text-align:center;background:#0d1018}.drop.drag{border-color:var(--accent);background:#b6ff5c0b}.drop input{max-width:100%;margin-top:12px;color:var(--muted)}.field{display:grid;gap:7px;margin:13px 0}.field label{font-size:12px;color:var(--muted)}.field input,.field select{background:#0c0f17;color:white;border:1px solid var(--line);border-radius:10px;padding:11px;outline:none;width:100%}.rowfields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.note{font-size:11px;color:var(--muted);line-height:1.6}.watch{width:min(1100px,100%);padding:0;overflow:hidden}.watch video{width:100%;max-height:65vh;background:#000;display:block}.watchmeta{padding:18px 22px}.watchmeta h2{margin:0 0 6px}.watchmeta p{color:var(--muted);font-size:13px}.watchbar{display:flex;justify-content:space-between;gap:12px;align-items:center}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#e8ffcb;color:#17200d;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:700;z-index:50;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}.hidden{display:none!important}
+@media(max-width:700px){.shell{padding:0 16px 45px}.top{height:64px}.nav{display:none}.pill{display:none}.hero{min-height:390px;padding:28px 23px;margin:18px 0 30px}.hero-art{width:65%;right:-15%;opacity:.4}.hero h1{font-size:49px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.section-head{align-items:flex-start;gap:12px;flex-wrap:wrap}.tools{width:100%}.search{width:100%}.upload-card{align-items:flex-start;flex-direction:column}.rowfields{grid-template-columns:1fr}.poster{border-radius:12px}.topright .btn{padding:9px 11px;font-size:12px}}
+@media(min-width:1100px){.grid{grid-template-columns:repeat(6,minmax(0,1fr))}}
+</style></head>
 <body>
 <div class="shell">
-<header class="top">
-<div class="brand">N<span>O</span>IR</div>
-<nav class="nav">
-<a href="#home">Home</a>
-<a href="#library">My Library</a>
-<a href="#continue">Continue Watching</a>
-</nav>
-<div class="topright">
-<span class="pill">PERSONAL CINEMA</span>
-<button class="btn small" id="uploadTop">＋ Upload</button>
-<div class="avatar">N</div>
-</div>
-</header>
-
+<header class="top"><div class="brand">N<span>O</span>IR</div><nav class="nav"><a href="#home">Home</a><a href="#library">My Library</a><a href="#continue">Continue Watching</a></nav><div class="topright"><span class="pill">PERSONAL CINEMA</span><button class="btn small" id="uploadTop">＋ Upload</button><div class="avatar">N</div></div></header>
 <main id="home">
-<section class="hero">
-<div class="hero-art"></div>
-<div class="hero-content">
-<div class="eyebrow">Your private cinema</div>
-<h1>Every story.<br>One place.</h1>
-<p>Your personal movie universe. Upload your own video files, build a library, and enjoy them on a compatible phone or Smart TV browser.</p>
-<div class="actions">
-<button class="btn" id="heroUpload">＋ Add your first movie</button>
-<button class="btn ghost" id="browseBtn">Explore library ↓</button>
+<section class="hero"><div class="hero-art"></div><div class="hero-content"><div class="eyebrow">Your private cinema</div><h1>Every story.<br>One place.</h1><p>Your personal movie universe. Upload your own video files, build a library, and enjoy them on a compatible phone or Smart TV browser.</p><div class="actions"><button class="btn" id="heroUpload">＋ Add your first movie</button><button class="btn ghost" id="browseBtn">Explore library ↓</button></div></div></section>
+<section class="section" id="continue"><div class="section-head"><div><h2>Continue watching</h2><div class="sub">Pick up right where you left off</div></div></div><div id="continueGrid" class="grid"></div><div id="continueEmpty" class="empty">Your watch history will appear here.</div></section>
+<section class="section" id="library"><div class="section-head"><div><h2>My library</h2><div class="sub" id="countText">Your collection, all in one place</div></div><div class="tools"><input class="search" id="search" placeholder="⌕  Search your movies..."></div></div><div id="movieGrid" class="grid"></div><div id="libraryEmpty" class="empty"><div style="font-size:30px">▧</div><b>Your cinema is waiting</b>Upload a video to start building your personal library.<br><br><button class="btn small" id="emptyUpload">Upload a movie</button></div></section>
+<section class="section"><div class="upload-card"><div><h3>Bring your collection to life</h3><p>Add a video from your device. Your local library stays on this browser.</p></div><button class="btn" id="uploadBottom">＋ Upload movie</button></div></section>
+</main><div class="footer">NOIR PERSONAL CINEMA · Made for your own video collection<br>Only upload or stream videos you have the right to use.</div>
 </div>
-</div>
-</section>
-
-<section class="section" id="continue">
-<div class="section-head">
-<div><h2>Continue watching</h2><div class="sub">Pick up right where you left off</div></div>
-</div>
-<div id="continueGrid" class="grid"></div>
-<div id="continueEmpty" class="empty">Your watch history will appear here.</div>
-</section>
-
-<section class="section" id="library">
-<div class="section-head">
-<div><h2>My library</h2><div class="sub" id="countText">Your collection, all in one place</div></div>
-<div class="tools"><input class="search" id="search" placeholder="⌕ Search your movies..."></div>
-</div>
-<div id="movieGrid" class="grid"></div>
-<div id="libraryEmpty" class="empty">
-<div style="font-size:30px">▧</div>
-<b>Your cinema is waiting</b>
-Upload a video to start building your personal library.<br><br>
-<button class="btn small" id="emptyUpload">Upload a movie</button>
-</div>
-</section>
-
-<section class="section">
-<div class="upload-card">
-<div><h3>Bring your collection to life</h3><p>Add a video from your device. Your local library stays on this browser.</p></div>
-<button class="btn" id="uploadBottom">＋ Upload movie</button>
-</div>
-</section>
-</main>
-
-<div class="footer">
-NOIR PERSONAL CINEMA · Made for your own video collection<br>
-Only upload or stream videos you have the right to use.
-</div>
-</div>
-
-<div class="modal" id="uploadModal">
-<div class="dialog">
-<div class="dialog-head"><h2>Add to your library</h2><button class="close" data-close>✕</button></div>
-<div class="drop" id="drop">
-<div style="font-size:28px">⇧</div>
-<b>Choose a movie file</b>
-<div class="note">Select a video stored on this device. MP4, WebM and other browser-supported formats.</div>
-<input type="file" id="videoFile" accept="video/*">
-</div>
-<div class="rowfields">
-<div class="field"><label>Movie title</label><input id="movieTitle" placeholder="e.g. Interstellar"></div>
-<div class="field"><label>Genre / category</label><input id="movieGenre" placeholder="Sci-fi, Drama, Action..."></div>
-</div>
-<div class="field"><label>Short description (optional)</label><input id="movieDesc" placeholder="A short note about this movie"></div>
-<div class="field"><label>Poster image (optional)</label><input type="file" id="posterFile" accept="image/*"></div>
-<p class="note" id="uploadStatus">Files are saved in this browser's local database. Large files need enough device storage.</p>
-<button class="btn" id="saveMovie" style="width:100%;justify-content:center">Save to my library</button>
-</div>
-</div>
-
-<div class="modal" id="playerModal">
-<div class="dialog watch">
-<div class="dialog-head" style="padding:17px 18px 0">
-<div class="eyebrow">Now playing</div>
-<button class="close" data-close>✕</button>
-</div>
-<video id="player" controls playsinline></video>
-<div class="watchmeta">
-<div class="watchbar">
-<div><h2 id="playingTitle">Movie</h2><div class="sub" id="playingGenre"></div></div>
-<button class="btn small ghost" id="fullScreen">⛶ Full screen</button>
-</div>
-<p id="playingDesc"></p>
-<div class="note">Tip: use your TV browser's full-screen control for a cinema-style view. Playback controls support keyboard / TV remote navigation where the browser allows it.</div>
-</div>
-</div>
-</div>
-
-<div class="modal" id="settingsModal">
-<div class="dialog">
-<div class="dialog-head"><h2>Storage & TV setup</h2><button class="close" data-close>✕</button></div>
-<h3>Current mode: Local browser library</h3>
-<p class="note">This starter app saves uploaded videos in IndexedDB on the device where you upload them. For the same library to appear on your phone and Smart TV, it must be connected to a cloud storage service and deployed to a web address accessible by both devices.</p>
-<div class="field">
-<label>Cloud setup</label>
-<p class="note">Cloud sync is not configured in this standalone starter. A secure cloud version needs a storage provider, sign-in, access rules and a hosted app. Do not put private service-role keys in browser code.</p>
-</div>
-<div class="field">
-<label>Watch on Smart TV</label>
-<p class="note">Open the hosted app's web address in your Smart TV browser and sign in. This local-only version will not transfer files between devices automatically. Some TV browsers may not support every video codec; MP4 with H.264/AAC is the safest general choice.</p>
-</div>
-<button class="btn ghost" data-close>Got it</button>
-</div>
-</div>
-
+<div class="modal" id="uploadModal"><div class="dialog"><div class="dialog-head"><h2>Add to your library</h2><button class="close" data-close>✕</button></div><div class="drop" id="drop"><div style="font-size:28px">⇧</div><b>Choose a movie file</b><div class="note">Select a video stored on this device. MP4, WebM and other browser-supported formats.</div><input type="file" id="videoFile" accept="video/*"></div><div class="rowfields"><div class="field"><label>Movie title</label><input id="movieTitle" placeholder="e.g. Interstellar"></div><div class="field"><label>Genre / category</label><input id="movieGenre" placeholder="Sci-fi, Drama, Action..."></div></div><div class="field"><label>Short description (optional)</label><input id="movieDesc" placeholder="A short note about this movie"></div><div class="field"><label>Poster image (optional)</label><input type="file" id="posterFile" accept="image/*"></div><p class="note" id="uploadStatus">Files are saved in this browser's local database. Large files need enough device storage.</p><button class="btn" id="saveMovie" style="width:100%;justify-content:center">Save to my library</button></div></div>
+<div class="modal" id="playerModal"><div class="dialog watch"><div class="dialog-head" style="padding:17px 18px 0"><div class="eyebrow">Now playing</div><button class="close" data-close>✕</button></div><video id="player" controls playsinline></video><div class="watchmeta"><div class="watchbar"><div><h2 id="playingTitle">Movie</h2><div class="sub" id="playingGenre"></div></div><button class="btn small ghost" id="fullScreen">⛶ Full screen</button></div><p id="playingDesc"></p><div class="note">Tip: use your TV browser's full-screen control for a cinema-style view. Playback controls support keyboard / TV remote navigation where the browser allows it.</div></div></div></div>
+<div class="modal" id="settingsModal"><div class="dialog"><div class="dialog-head"><h2>Storage & TV setup</h2><button class="close" data-close>✕</button></div><h3>Current mode: Local browser library</h3><p class="note">This starter app saves uploaded videos in IndexedDB on the device where you upload them. For the same library to appear on your phone and Smart TV, it must be connected to a cloud storage service and deployed to a web address accessible by both devices.</p><div class="field"><label>Cloud setup</label><p class="note">Cloud sync is not configured in this standalone starter. A secure cloud version needs a storage provider, sign-in, access rules and a hosted app. Do not put private service-role keys in browser code.</p></div><div class="field"><label>Watch on Smart TV</label><p class="note">Open the hosted app's web address in your Smart TV browser and sign in. This local-only version will not transfer files between devices automatically. Some TV browsers may not support every video codec; MP4 with H.264/AAC is the safest general choice.</p></div><button class="btn ghost" data-close>Got it</button></div></div>
 <div class="toast" id="toast"></div>
-
 <script>
-const DB='noirCinemaDB', STORE='movies';
-let db, selectedVideo=null, selectedPoster=null, activeUrl=null, currentMovie=null;
-
+const DB='noirCinemaDB', STORE='movies';let db, selectedVideo=null, selectedPoster=null, activeUrl=null, currentMovie=null;
 const $=id=>document.getElementById(id);
-
-function toast(msg){
-const t=$('toast');
-t.textContent=msg;
-t.classList.add('show');
-setTimeout(()=>t.classList.remove('show'),2600);
-}
-
-function openModal(id){$(id).classList.add('show')}
-function closeModals(){$$('.modal').forEach(x=>x.classList.remove('show'))}
-function $$(s){return [...document.querySelectorAll(s)]}
-
-function initDB(){
-return new Promise((resolve,reject)=>{
-const req=indexedDB.open(DB,1);
-req.onupgradeneeded=()=>{
-const d=req.result;
-if(!d.objectStoreNames.contains(STORE)){
-const s=d.createObjectStore(STORE,{keyPath:'id'});
-s.createIndex('createdAt','createdAt');
-}
-};
-req.onsuccess=()=>{db=req.result;resolve()};
-req.onerror=()=>reject(req.error);
-});
-}
-
-function tx(mode='readonly'){
-return db.transaction(STORE,mode).objectStore(STORE);
-}
-
-function allMovies(){
-return new Promise((res,rej)=>{
-const r=tx().getAll();
-r.onsuccess=()=>res(r.result.sort((a,b)=>b.createdAt-a.createdAt));
-r.onerror=()=>rej(r.error);
-});
-}
-
-function saveRecord(movie){
-return new Promise((res,rej)=>{
-const r=tx('readwrite').put(movie);
-r.onsuccess=()=>res();
-r.onerror=()=>rej(r.error);
-});
-}
-
-function deleteRecord(id){
-return new Promise((res,rej)=>{
-const r=tx('readwrite').delete(id);
-r.onsuccess=()=>res();
-r.onerror=()=>rej(r.error);
-});
-}
-
-function posterStyle(m){
-return m.poster?`background-image:linear-gradient(0deg,#070910e8,transparent 75%),url("${URL.createObjectURL(m.poster)}");background-size:cover;background-position:center`:'';
-}
-
-function card(m,progress=false){
-const el=document.createElement('div');
-el.className='movie';
-el.tabIndex=0;
-
-const poster=document.createElement('div');
-poster.className='poster';
-poster.style=posterStyle(m);
-poster.innerHTML=`<span class="tag">${escapeHtml(m.genre||'PERSONAL')}</span><div class="poster-title">${escapeHtml(m.title)}</div>`;
-
-const info=document.createElement('div');
-info.className='movie-info';
-info.innerHTML=`<strong>${escapeHtml(m.title)}</strong><span>${progress?Math.floor((m.position||0)/(m.duration||1)*100)+'%':'▶'}</span>`;
-
-el.append(poster,info);
-
-if(progress){
-const bar=document.createElement('div');
-bar.className='progress';
-bar.innerHTML=`<i style="width:${Math.min(100,(m.position||0)/(m.duration||1)*100)}%"></i>`;
-el.append(bar);
-}
-
-el.onclick=()=>playMovie(m);
-el.onkeydown=e=>{if(e.key==='Enter')playMovie(m)};
-return el;
-}
-
-function escapeHtml(s=''){
-return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-async function render(){
-const movies=await allMovies();
-const q=$('search').value.toLowerCase();
-
-$('countText').textContent=`${movies.length} ${movies.length===1?'title':'titles'} in your collection`;
-$('movieGrid').replaceChildren();
-
-const filtered=movies.filter(m=>(m.title+' '+m.genre).toLowerCase().includes(q));
-filtered.forEach(m=>$('movieGrid').append(card(m)));
-
-$('libraryEmpty').classList.toggle('hidden',filtered.length>0);
-$('continueGrid').replaceChildren();
-
-const recent=movies.filter(m=>(m.position||0)>5).sort((a,b)=>(b.lastPlayed||0)-(a.lastPlayed||0)).slice(0,6);
-recent.forEach(m=>$('continueGrid').append(card(m,true)));
-
-$('continueEmpty').classList.toggle('hidden',recent.length>0);
-
-if(q&&filtered.length===0){
-$('libraryEmpty').classList.remove('hidden');
-$('libraryEmpty').innerHTML='No matching movies found.';
-}
-}
-
-function resetUpload(){
-$('videoFile').value='';
-$('posterFile').value='';
-$('movieTitle').value='';
-$('movieGenre').value='';
-$('movieDesc').value='';
-selectedVideo=null;
-selectedPoster=null;
-$('uploadStatus').textContent='Files are saved in this browser\\'s local database. Large files need enough device storage.';
-}
-
-$('videoFile').onchange=e=>{
-selectedVideo=e.target.files[0]||null;
-if(selectedVideo&&!$('movieTitle').value)$('movieTitle').value=selectedVideo.name.replace(/\.[^.]+$/,'');
-};
-
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+function openModal(id){$(id).classList.add('show')}function closeModals(){$$('.modal').forEach(x=>x.classList.remove('show'))}function $$(s){return [...document.querySelectorAll(s)]}
+function initDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB,1);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE)){const s=d.createObjectStore(STORE,{keyPath:'id'});s.createIndex('createdAt','createdAt')}};req.onsuccess=()=>{db=req.result;resolve()};req.onerror=()=>reject(req.error)})}
+function tx(mode='readonly'){return db.transaction(STORE,mode).objectStore(STORE)}
+function allMovies(){return new Promise((res,rej)=>{const r=tx().getAll();r.onsuccess=()=>res(r.result.sort((a,b)=>b.createdAt-a.createdAt));r.onerror=()=>rej(r.error)})}
+function saveRecord(movie){return new Promise((res,rej)=>{const r=tx('readwrite').put(movie);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
+function deleteRecord(id){return new Promise((res,rej)=>{const r=tx('readwrite').delete(id);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
+function posterStyle(m){return m.poster?`background-image:linear-gradient(0deg,#070910e8,transparent 75%),url("${URL.createObjectURL(m.poster)}");background-size:cover;background-position:center`:''}
+function card(m,progress=false){const el=document.createElement('div');el.className='movie';el.tabIndex=0;const poster=document.createElement('div');poster.className='poster';poster.style=posterStyle(m);poster.innerHTML=`<span class="tag">${escapeHtml(m.genre||'PERSONAL')}</span><div class="poster-title">${escapeHtml(m.title)}</div>`;const info=document.createElement('div');info.className='movie-info';info.innerHTML=`<strong>${escapeHtml(m.title)}</strong><span>${progress?Math.floor((m.position||0)/(m.duration||1)*100)+'%':'▶'}</span>`;el.append(poster,info);if(progress){const bar=document.createElement('div');bar.className='progress';bar.innerHTML=`<i style="width:${Math.min(100,(m.position||0)/(m.duration||1)*100)}%"></i>`;el.append(bar)}el.onclick=()=>playMovie(m);el.onkeydown=e=>{if(e.key==='Enter')playMovie(m)};return el}
+function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+async function render(){const movies=await allMovies(),q=$('search').value.toLowerCase();$('countText').textContent=`${movies.length} ${movies.length===1?'title':'titles'} in your collection`;$('movieGrid').replaceChildren();const filtered=movies.filter(m=>(m.title+' '+m.genre).toLowerCase().includes(q));filtered.forEach(m=>$('movieGrid').append(card(m)));$('libraryEmpty').classList.toggle('hidden',filtered.length>0);$('continueGrid').replaceChildren();const recent=movies.filter(m=>(m.position||0)>5).sort((a,b)=>(b.lastPlayed||0)-(a.lastPlayed||0)).slice(0,6);recent.forEach(m=>$('continueGrid').append(card(m,true)));$('continueEmpty').classList.toggle('hidden',recent.length>0);if(q&&filtered.length===0){$('libraryEmpty').classList.remove('hidden');$('libraryEmpty').innerHTML='No matching movies found.'}}
+function resetUpload(){$('videoFile').value='';$('posterFile').value='';$('movieTitle').value='';$('movieGenre').value='';$('movieDesc').value='';selectedVideo=null;selectedPoster=null;$('uploadStatus').textContent="Files are saved in this browser's local database. Large files need enough device storage."}
+$('videoFile').onchange=e=>{selectedVideo=e.target.files[0]||null;if(selectedVideo&&!$('movieTitle').value)$('movieTitle').value=selectedVideo.name.replace(/\.[^.]+$/,'')};
 $('posterFile').onchange=e=>selectedPoster=e.target.files[0]||null;
-
-$('saveMovie').onclick=async()=>{
-if(!selectedVideo){toast('Choose a video file first');return}
-if(!selectedVideo.type.startsWith('video/')){toast('Please choose a video file');return}
-
-const btn=$('saveMovie');
-btn.disabled=true;
-btn.textContent='Saving…';
-
-try{
-const m={
-id:crypto.randomUUID(),
-title:$('movieTitle').value.trim()||selectedVideo.name,
-genre:$('movieGenre').value.trim()||'My collection',
-description:$('movieDesc').value.trim(),
-video:selectedVideo,
-poster:selectedPoster,
-createdAt:Date.now(),
-position:0,
-duration:0
-};
-
-await saveRecord(m);
-closeModals();
-resetUpload();
-await render();
-toast('Added to your personal library');
-}catch(e){
-console.error(e);
-toast('Could not save. Device storage may be full.');
-}finally{
-btn.disabled=false;
-btn.textContent='Save to my library';
-}
-};
-
-async function playMovie(m){
-currentMovie=m;
-if(activeUrl)URL.revokeObjectURL(activeUrl);
-
-activeUrl=URL.createObjectURL(m.video);
-$('player').src=activeUrl;
-$('playingTitle').textContent=m.title;
-$('playingGenre').textContent=m.genre||'Personal collection';
-$('playingDesc').textContent=m.description||'';
-
-openModal('playerModal');
-
-$('player').onloadedmetadata=()=>{
-if(m.position>5&&m.position<$('player').duration-10)$('player').currentTime=m.position;
-m.duration=$('player').duration||0;
-saveRecord(m);
-};
-
-$('player').play().catch(()=>{});
-
-$('player').ontimeupdate=()=>{
-if(!currentMovie)return;
-currentMovie.position=$('player').currentTime;
-currentMovie.duration=$('player').duration||currentMovie.duration;
-currentMovie.lastPlayed=Date.now();
-if(Math.floor(currentMovie.position)%5===0)saveRecord(currentMovie);
-};
-
-$('player').onended=()=>{
-currentMovie.position=0;
-saveRecord(currentMovie);
-render();
-};
-}
-
-$('fullScreen').onclick=()=>{
-const v=$('player');
-if(v.requestFullscreen)v.requestFullscreen();
-else if(v.webkitEnterFullscreen)v.webkitEnterFullscreen();
-};
-
-['uploadTop','heroUpload','emptyUpload','uploadBottom'].forEach(id=>$(id).onclick=()=>{
-resetUpload();
-openModal('uploadModal');
-});
-
-$('browseBtn').onclick=()=>$('library').scrollIntoView({behavior:'smooth'});
-$('search').oninput=render;
-
-$$('[data-close]').forEach(b=>b.onclick=()=>closeModals());
-$$('.modal').forEach(m=>m.onclick=e=>{if(e.target===m)closeModals()});
-
-$('drop').ondragover=e=>{
-e.preventDefault();
-$('drop').classList.add('drag');
-};
-
-$('drop').ondragleave=()=>$('drop').classList.remove('drag');
-
-$('drop').ondrop=e=>{
-e.preventDefault();
-$('drop').classList.remove('drag');
-const f=e.dataTransfer.files[0];
-if(f&&f.type.startsWith('video/')){
-selectedVideo=f;
-$('movieTitle').value=f.name.replace(/\.[^.]+$/,'');
-}
-};
-
-document.addEventListener('keydown',e=>{
-if(e.key==='Escape')closeModals();
-if(e.key==='/'&&!['INPUT'].includes(document.activeElement.tagName)){
-e.preventDefault();
-$('search').focus();
-}
-});
-
-document.querySelector('.avatar').onclick=()=>openModal('settingsModal');
-document.querySelector('.pill').onclick=()=>openModal('settingsModal');
-
-window.
+$('saveMovie').onclick=async()=>{if(!selectedVideo){toast('Choose a video file first');return}if(!selectedVideo.type.startsWith('video/')){toast('Please choose a video file');return}const btn=$('saveMovie');btn.disabled=true;btn.textContent='Saving…';try{const m={id:crypto.randomUUID(),title:$('movieTitle').value.trim()||selectedVideo.name,genre:$('movieGenre').value.trim()||'My collection',description:$('movieDesc').value.trim(),video:selectedVideo,poster:selectedPoster,createdAt:Date.now(),position:0,duration:0};await saveRecord(m);closeModals();resetUpload();await render();toast('Added to your personal library')}catch(e){console.error(e);toast('Could not save. Device storage may be full.')}finally{btn.disabled=false;btn.textContent='Save to my library'}};
+async function playMovie(m){currentMovie=m;if(activeUrl)URL.revokeObjectURL(activeUrl);activeUrl=URL.createObjectURL(m.video);$('player').src=activeUrl;$('playingTitle').textContent=m.title;$('playingGenre').textContent=m.genre||'Personal collection';$('playingDesc').textContent=m.description||'';openModal('playerModal');$('player').onloadedmetadata=()=>{if(m.position>5&&m.position<$('player').duration-10)$('player').currentTime=m.position;m.duration=$('player').duration||0;saveRecord(m)};$('player').play().catch(()=>{});$('player').ontimeupdate=()=>{if(!currentMovie)return;currentMovie.position=$('player').currentTime;currentMovie.duration=$('player').duration||currentMovie.duration;currentMovie.lastPlayed=Date.now();if(Math.floor(currentMovie.position)%5===0)saveRecord(currentMovie)};$('player').onended=()=>{currentMovie.position=0;saveRecord(currentMovie);render()}}
+$('fullScreen').onclick=()=>{const v=$('player');if(v.requestFullscreen)v.requestFullscreen();else if(v.webkitEnterFullscreen)v.webkitEnterFullscreen()};
+['uploadTop','heroUpload','emptyUpload','uploadBottom'].forEach(id=>$(id).onclick=()=>{resetUpload();openModal('uploadModal')});
+$('browseBtn').onclick=()=>$('library').scrollIntoView({behavior:'smooth'});$('search').oninput=render;
+$$('[data-close]').forEach(b=>b.onclick=()=>closeModals());$$('.modal').forEach(m=>m.onclick=e=>{if(e.target===m)closeModals()});
+$('drop').ondragover=e=>{e.preventDefault();$('drop').classList.add('drag')};$('drop').ondragleave=()=>$('drop').classList.remove('drag');$('drop').ondrop=e=>{e.preventDefault();$('drop').classList.remove('drag');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('video/')){selectedVideo=f;$('movieTitle').value=f.name.replace(/\.[^.]+$/,'')}};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModals();if(e.key==='/'&&!['INPUT'].includes(document.activeElement.tagName)){e.preventDefault();$('search').focus()}});
+document.querySelector('.avatar').onclick=()=>openModal('settingsModal');document.querySelector('.pill').onclick=()=>openModal('settingsModal');
+window.addEventListener('beforeunload',()=>{if(activeUrl)URL.revokeObjectURL(activeUrl)});
+initDB().then(render).catch(e=>{console.error(e);toast('Your browser does not support local movie storage')});
+</script><script>if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(console.error)); }</script>
+</body></html>
